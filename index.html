@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BoxFit — Gimnasio Funcional</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { inter: ['Inter', 'sans-serif'] },
+          colors: { accent: '#ef4444' }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);} }
+    .fade-in { animation: fadeIn 0.35s ease forwards; }
+    @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:.5;} }
+    .pulse { animation: pulse 1.5s cubic-bezier(0.4,0,0.6,1) infinite; }
+    ::-webkit-scrollbar{width:6px;}::-webkit-scrollbar-track{background:#111;}::-webkit-scrollbar-thumb{background:#ef4444;border-radius:3px;}
+    .level-bar { transition: width 0.8s ease; }
+    .slot-card:hover { border-color: rgba(239,68,68,0.5); }
+    .slot-card { transition: all 0.2s ease; }
+    .pr-input:focus { border-color: #ef4444; }
+    #countdownDisplay { font-variant-numeric: tabular-nums; }
+  </style>
+</head>
+<body class="bg-[#0a0a0a] text-white">
+
+<!-- NAV -->
+<nav class="sticky top-0 z-50 bg-[#0a0a0a]/90 backdrop-blur border-b border-white/5">
+  <div class="max-w-7xl mx-auto px-4 flex items-center justify-between h-16">
+    <a href="#" class="text-xl font-black tracking-tight">Box<span class="text-accent">Fit</span></a>
+    <div class="hidden md:flex items-center gap-6 text-sm font-medium text-gray-400">
+      <a href="#wod" class="hover:text-white transition">WOD</a>
+      <a href="#pr" class="hover:text-white transition">PR Tracker</a>
+      <a href="#benchmark" class="hover:text-white transition">Nivel</a>
+      <a href="#horario" class="hover:text-white transition">Horario</a>
+      <a href="#booking" class="hover:text-white transition">Prueba gratis</a>
+    </div>
+    <a href="#booking" class="bg-accent text-white text-sm font-bold px-4 py-2 rounded-lg hover:bg-red-400 transition">Clase gratis</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="relative min-h-[92vh] flex items-center overflow-hidden">
+  <img src="img/hero.webp" alt="Hero" class="absolute inset-0 w-full h-full object-cover opacity-30" />
+  <div class="absolute inset-0 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/70 to-transparent"></div>
+  <div class="relative max-w-7xl mx-auto px-4 py-24 w-full">
+    <div class="max-w-xl">
+      <span class="inline-block bg-accent/20 text-accent text-xs font-bold px-3 py-1 rounded-full mb-4 border border-accent/30 uppercase tracking-widest">Funcional · Intenso · Comunidad</span>
+      <h1 class="text-6xl md:text-8xl font-black leading-none mb-4">Entrena<br/><span class="text-accent">diferente.</span></h1>
+      <p class="text-gray-300 text-lg mb-8 max-w-md">CrossFit y entrenamiento funcional de alta intensidad. Resultados reales, comunidad real. Primer mes sin compromiso.</p>
+      <div class="flex flex-wrap gap-3">
+        <a href="#booking" class="bg-accent hover:bg-red-400 text-white font-black px-8 py-4 rounded-2xl transition text-lg">Clase de prueba gratis</a>
+        <a href="#wod" class="border border-white/20 hover:border-accent text-white font-semibold px-8 py-4 rounded-2xl transition">Ver WOD de hoy →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WOD -->
+<section id="wod" class="max-w-7xl mx-auto px-4 py-20">
+  <div class="grid md:grid-cols-2 gap-10 items-center">
+    <div>
+      <span class="text-xs text-accent font-bold tracking-widest uppercase">Workout of the Day</span>
+      <h2 class="text-4xl font-black mt-2 mb-1">WOD de hoy</h2>
+      <p id="wodDate" class="text-gray-400 text-sm mb-8"></p>
+      <div class="space-y-3 mb-8">
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-5 flex items-center gap-4">
+          <div class="w-10 h-10 bg-accent/15 rounded-xl flex items-center justify-center text-accent font-black">1</div>
+          <div>
+            <p class="font-bold">Power Cleans</p>
+            <p class="text-gray-400 text-sm">5 rondas × 7 reps @ 70% 1RM</p>
+          </div>
+        </div>
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-5 flex items-center gap-4">
+          <div class="w-10 h-10 bg-accent/15 rounded-xl flex items-center justify-center text-accent font-black">2</div>
+          <div>
+            <p class="font-bold">Box Jumps</p>
+            <p class="text-gray-400 text-sm">4 rondas × 12 reps — 60cm caja</p>
+          </div>
+        </div>
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-5 flex items-center gap-4">
+          <div class="w-10 h-10 bg-accent/15 rounded-xl flex items-center justify-center text-accent font-black">3</div>
+          <div>
+            <p class="font-bold">Burpees to Target</p>
+            <p class="text-gray-400 text-sm">AMRAP 10min — máximo reps</p>
+          </div>
+        </div>
+      </div>
+      <div class="flex gap-3">
+        <span class="bg-red-500/15 text-red-400 text-xs font-bold px-3 py-1.5 rounded-full border border-red-500/30">🔥 Alta intensidad</span>
+        <span class="bg-white/5 text-gray-300 text-xs font-bold px-3 py-1.5 rounded-full border border-white/10">⏱ ~45 min</span>
+        <span class="bg-white/5 text-gray-300 text-xs font-bold px-3 py-1.5 rounded-full border border-white/10">💪 Fuerza + cardio</span>
+      </div>
+    </div>
+    <div class="bg-white/5 border border-white/10 rounded-2xl p-8 text-center">
+      <p class="text-xs text-gray-400 uppercase tracking-widest mb-2">Próximo WOD en</p>
+      <div id="countdownDisplay" class="text-6xl md:text-7xl font-black text-accent mb-4">00:00:00</div>
+      <p class="text-sm text-gray-400 mb-6">Nuevo WOD a las <span class="text-white font-semibold">06:00</span> cada día</p>
+      <div class="grid grid-cols-3 gap-3 text-xs">
+        <div class="bg-white/5 rounded-xl p-3"><p class="text-gray-400">Dificultad</p><p class="font-bold text-accent mt-1">★★★★☆</p></div>
+        <div class="bg-white/5 rounded-xl p-3"><p class="text-gray-400">Tipo</p><p class="font-bold mt-1">EMOM</p></div>
+        <div class="bg-white/5 rounded-xl p-3"><p class="text-gray-400">Nivel</p><p class="font-bold mt-1">Intermedio</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PR TRACKER -->
+<section id="pr" class="bg-white/2 border-y border-white/5 py-20">
+  <div class="max-w-4xl mx-auto px-4">
+    <div class="text-center mb-10">
+      <span class="text-xs text-accent font-bold tracking-widest uppercase">Marca personal</span>
+      <h2 class="text-3xl font-black mt-2">PR Tracker</h2>
+      <p class="text-gray-400 mt-2">Registra y consulta tus marcas personales. Se guardan en tu dispositivo.</p>
+    </div>
+    <div class="bg-white/5 border border-white/10 rounded-2xl p-6 mb-6">
+      <div class="flex flex-col sm:flex-row gap-3">
+        <input id="athleteName" type="text" placeholder="Tu nombre o alias (ej: JuanFit)" class="flex-1 pr-input bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none transition" />
+        <button onclick="loadPRs()" class="bg-accent hover:bg-red-400 text-white font-bold px-6 py-3 rounded-xl transition text-sm">Ver mis PRs</button>
+      </div>
+    </div>
+    <div id="prPanel" class="hidden fade-in">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6" id="prGrid"></div>
+      <div class="bg-white/5 border border-white/10 rounded-2xl p-6">
+        <h3 class="font-bold mb-4 text-sm text-gray-400">REGISTRAR NUEVO PR</h3>
+        <div class="grid sm:grid-cols-3 gap-3">
+          <select id="prMovement" class="bg-[#111] border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-accent">
+            <option>Back Squat</option>
+            <option>Deadlift</option>
+            <option>Bench Press</option>
+            <option>Overhead Press</option>
+            <option>Power Clean</option>
+            <option>Snatch</option>
+          </select>
+          <input id="prValue" type="number" placeholder="Peso (kg)" class="bg-[#111] border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-accent" />
+          <button onclick="savePR()" class="bg-accent hover:bg-red-400 text-white font-bold py-3 rounded-xl transition text-sm">Guardar PR</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BENCHMARK / LEVEL -->
+<section id="benchmark" class="max-w-7xl mx-auto px-4 py-20">
+  <div class="text-center mb-10">
+    <span class="text-xs text-accent font-bold tracking-widest uppercase">Test de nivel</span>
+    <h2 class="text-3xl font-black mt-2">¿Cuál es tu nivel?</h2>
+    <p class="text-gray-400 mt-2">Rellena tus resultados en 5 benchmarks. Obtendrás tu badge de nivel.</p>
+  </div>
+  <div class="max-w-3xl mx-auto">
+    <div class="grid sm:grid-cols-2 gap-5 mb-8">
+      <div class="bg-white/5 border border-white/10 rounded-2xl p-5">
+        <label class="text-sm font-semibold text-gray-300 mb-1 block">Back Squat 1RM (kg)</label>
+        <input id="bm1" type="number" placeholder="ej: 80" oninput="calcLevel()" class="w-full bg-[#111] border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-accent transition" />
+      </div>
+      <div class="bg-white/5 border border-white/10 rounded-2xl p-5">
+        <label class="text-sm font-semibold text-gray-300 mb-1 block">Deadlift 1RM (kg)</label>
+        <input id="bm2" type="number" placeholder="ej: 100" oninput="calcLevel()" class="w-full bg-[#111] border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-accent transition" />
+      </div>
+      <div class="bg-white/5 border border-white/10 rounded-2xl p-5">
+        <label class="text-sm font-semibold text-gray-300 mb-1 block">Fran (min:seg)</label>
+        <input id="bm3" type="text" placeholder="ej: 4:30" oninput="calcLevel()" class="w-full bg-[#111] border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-accent transition" />
+        <p class="text-xs text-gray-500 mt-1">21-15-9 Thrusters + Pull-ups</p>
+      </div>
+      <div class="bg-white/5 border border-white/10 rounded-2xl p-5">
+        <label class="text-sm font-semibold text-gray-300 mb-1 block">Pull-ups max (reps)</label>
+        <input id="bm4" type="number" placeholder="ej: 15" oninput="calcLevel()" class="w-full bg-[#111] border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-accent transition" />
+      </div>
+      <div class="bg-white/5 border border-white/10 rounded-2xl p-5 sm:col-span-2">
+        <label class="text-sm font-semibold text-gray-300 mb-1 block">500m Row (min:seg)</label>
+        <input id="bm5" type="text" placeholder="ej: 1:45" oninput="calcLevel()" class="w-full bg-[#111] border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-accent transition" />
+      </div>
+    </div>
+    <div id="levelResult" class="hidden bg-white/5 border border-white/10 rounded-2xl p-8 text-center fade-in">
+      <p class="text-sm text-gray-400 mb-2">Tu nivel BoxFit es</p>
+      <div id="levelBadge" class="text-5xl font-black mb-3"></div>
+      <p id="levelDesc" class="text-gray-300 max-w-sm mx-auto text-sm mb-6"></p>
+      <div class="max-w-xs mx-auto">
+        <div class="flex justify-between text-xs text-gray-400 mb-2">
+          <span>Principiante</span><span>Elite</span>
+        </div>
+        <div class="h-3 bg-white/10 rounded-full overflow-hidden">
+          <div id="levelBar" class="level-bar h-full bg-accent rounded-full w-0"></div>
+        </div>
+        <div class="flex justify-between text-xs text-gray-500 mt-1"><span>0</span><span>100</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HORARIO -->
+<section id="horario" class="bg-white/2 border-y border-white/5 py-20">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="text-center mb-10">
+      <span class="text-xs text-accent font-bold tracking-widest uppercase">Clases</span>
+      <h2 class="text-3xl font-black mt-2">Horario semanal</h2>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
+      <div class="slot-card bg-white/5 border border-white/10 rounded-2xl p-5">
+        <p class="text-xs text-accent font-bold mb-1">LUNES – VIERNES</p>
+        <p class="text-lg font-black mb-3">07:00</p>
+        <span class="text-xs text-green-400 bg-green-400/10 px-2 py-1 rounded-full">12/16 plazas</span>
+        <p class="text-xs text-gray-400 mt-2">WOD mañana · Funcional</p>
+      </div>
+      <div class="slot-card bg-white/5 border border-white/10 rounded-2xl p-5">
+        <p class="text-xs text-accent font-bold mb-1">LUNES – VIERNES</p>
+        <p class="text-lg font-black mb-3">09:30</p>
+        <span class="text-xs text-green-400 bg-green-400/10 px-2 py-1 rounded-full">8/16 plazas</span>
+        <p class="text-xs text-gray-400 mt-2">Open Gym · Libre</p>
+      </div>
+      <div class="slot-card bg-white/5 border border-accent/30 rounded-2xl p-5">
+        <p class="text-xs text-accent font-bold mb-1">LUNES – VIERNES</p>
+        <p class="text-lg font-black mb-3">18:00</p>
+        <span class="text-xs text-amber-400 bg-amber-400/10 px-2 py-1 rounded-full pulse">14/16 plazas</span>
+        <p class="text-xs text-gray-400 mt-2">WOD tarde · Intensivo</p>
+      </div>
+      <div class="slot-card bg-white/5 border border-white/10 rounded-2xl p-5">
+        <p class="text-xs text-accent font-bold mb-1">LUNES – VIERNES</p>
+        <p class="text-lg font-black mb-3">19:30</p>
+        <span class="text-xs text-green-400 bg-green-400/10 px-2 py-1 rounded-full">6/16 plazas</span>
+        <p class="text-xs text-gray-400 mt-2">Mobility & Recovery</p>
+      </div>
+      <div class="slot-card bg-white/5 border border-white/10 rounded-2xl p-5">
+        <p class="text-xs text-accent font-bold mb-1">SÁBADO</p>
+        <p class="text-lg font-black mb-3">10:00</p>
+        <span class="text-xs text-red-400 bg-red-400/10 px-2 py-1 rounded-full">16/16 plazas</span>
+        <p class="text-xs text-gray-400 mt-2">Partner WOD · Social</p>
+      </div>
+    </div>
+    <p class="text-center text-xs text-gray-500 mt-6">Rojo = sin plazas · Ámbar = pocas plazas · Verde = disponible</p>
+  </div>
+</section>
+
+<!-- BOOKING -->
+<section id="booking" class="max-w-7xl mx-auto px-4 py-20">
+  <div class="max-w-lg mx-auto">
+    <div class="text-center mb-10">
+      <span class="inline-block bg-accent/15 text-accent text-xs font-bold px-3 py-1 rounded-full mb-3 border border-accent/30 uppercase tracking-widest">Primera vez</span>
+      <h2 class="text-3xl font-black">Clase de prueba gratis</h2>
+      <p class="text-gray-400 mt-2">Sin compromiso. Ven, entrena y decide.</p>
+    </div>
+    <div id="bookingForm" class="bg-white/5 border border-white/10 rounded-2xl p-8 space-y-4">
+      <div class="grid sm:grid-cols-2 gap-4">
+        <input id="bName" type="text" placeholder="Nombre completo" class="bg-[#111] border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-accent transition w-full" />
+        <input id="bPhone" type="tel" placeholder="Teléfono" class="bg-[#111] border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-accent transition w-full" />
+      </div>
+      <input id="bEmail" type="email" placeholder="Email" class="bg-[#111] border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-accent transition w-full" />
+      <select id="bTime" class="bg-[#111] border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-accent transition w-full">
+        <option value="">Horario preferido…</option>
+        <option>Lunes-Viernes 07:00</option>
+        <option>Lunes-Viernes 09:30</option>
+        <option>Lunes-Viernes 18:00</option>
+        <option>Lunes-Viernes 19:30</option>
+        <option>Sábado 10:00</option>
+      </select>
+      <select id="bLevel" class="bg-[#111] border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-accent transition w-full">
+        <option value="">Nivel actual…</option>
+        <option>Sin experiencia</option>
+        <option>Principiante</option>
+        <option>Intermedio</option>
+        <option>Avanzado</option>
+      </select>
+      <button onclick="submitBooking()" class="w-full bg-accent hover:bg-red-400 text-white font-black py-4 rounded-xl transition text-base">Reservar clase gratis →</button>
+      <p class="text-xs text-gray-500 text-center">Al enviar aceptas recibir información sobre BoxFit. Sin spam.</p>
+    </div>
+    <div id="bookingSuccess" class="hidden bg-white/5 border border-white/10 rounded-2xl p-10 text-center fade-in">
+      <div class="w-16 h-16 bg-green-500/15 rounded-full flex items-center justify-center mx-auto mb-4">
+        <svg class="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+      </div>
+      <h3 class="text-2xl font-black mb-2">¡Reserva confirmada!</h3>
+      <p class="text-gray-400 text-sm">En menos de 24h te contactaremos para confirmar tu clase.<br/>¡Prepárate para sudar!</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="border-t border-white/5 py-10">
+  <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-500">
+    <span class="font-black text-white text-lg">Box<span class="text-accent">Fit</span></span>
+    <span>Desarrollado por <span style="color:#ef4444" class="font-semibold">PuntoZero Solutions</span></span>
+    <span>© 2025 BoxFit. Todos los derechos reservados.</span>
+  </div>
+</footer>
+
+<script>
+// COUNTDOWN
+function updateCountdown() {
+  const now = new Date();
+  const tomorrow = new Date(now);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  tomorrow.setHours(6, 0, 0, 0);
+  let diff = Math.floor((tomorrow - now) / 1000);
+  const h = Math.floor(diff / 3600).toString().padStart(2, '0');
+  const m = Math.floor((diff % 3600) / 60).toString().padStart(2, '0');
+  const s = (diff % 60).toString().padStart(2, '0');
+  document.getElementById('countdownDisplay').textContent = `${h}:${m}:${s}`;
+}
+const days = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+const months = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+const now = new Date();
+document.getElementById('wodDate').textContent = `${days[now.getDay()]} ${now.getDate()} de ${months[now.getMonth()]} de ${now.getFullYear()}`;
+setInterval(updateCountdown, 1000);
+updateCountdown();
+
+// PR TRACKER
+function loadPRs() {
+  const name = document.getElementById('athleteName').value.trim();
+  if (!name) { showToast('Escribe tu nombre primero'); return; }
+  const key = `boxfit_prs_${name.toLowerCase()}`;
+  let prs = JSON.parse(localStorage.getItem(key) || 'null');
+  if (!prs) {
+    prs = { 'Back Squat': 80, 'Deadlift': 100, 'Bench Press': 60, 'Overhead Press': 50, 'Power Clean': 55, 'Snatch': 45 };
+    localStorage.setItem(key, JSON.stringify(prs));
+  }
+  renderPRs(prs);
+  document.getElementById('prPanel').classList.remove('hidden');
+}
+
+function renderPRs(prs) {
+  const icons = { 'Back Squat':'🏋️', 'Deadlift':'⚡', 'Bench Press':'💪', 'Overhead Press':'🙌', 'Power Clean':'🔥', 'Snatch':'⭐' };
+  document.getElementById('prGrid').innerHTML = Object.entries(prs).map(([mov, kg]) => `
+    <div class="bg-white/5 border border-white/10 rounded-2xl p-5 text-center fade-in">
+      <span class="text-3xl">${icons[mov]||'💪'}</span>
+      <p class="text-xs text-gray-400 mt-2">${mov}</p>
+      <p class="text-3xl font-black text-accent mt-1">${kg}<span class="text-lg text-gray-400 font-normal">kg</span></p>
+    </div>`).join('');
+}
+
+function savePR() {
+  const name = document.getElementById('athleteName').value.trim();
+  const mov = document.getElementById('prMovement').value;
+  const val = parseFloat(document.getElementById('prValue').value);
+  if (!name || !val || val <= 0) { showToast('Rellena nombre y peso correctamente'); return; }
+  const key = `boxfit_prs_${name.toLowerCase()}`;
+  let prs = JSON.parse(localStorage.getItem(key) || '{}');
+  const old = prs[mov] || 0;
+  if (val > old) {
+    prs[mov] = val;
+    localStorage.setItem(key, JSON.stringify(prs));
+    renderPRs(prs);
+    showToast(`¡Nuevo PR en ${mov}! ${val}kg (+${(val-old).toFixed(1)}kg)`);
+  } else {
+    showToast(`Ese peso no supera tu PR actual de ${old}kg`);
+  }
+  document.getElementById('prValue').value = '';
+}
+
+// BENCHMARK LEVEL CALCULATOR
+function parseTime(str) {
+  if (!str) return null;
+  const parts = str.split(':');
+  if (parts.length === 2) return parseInt(parts[0]) * 60 + parseFloat(parts[1]);
+  return null;
+}
+
+function calcLevel() {
+  const squat = parseFloat(document.getElementById('bm1').value) || 0;
+  const dead = parseFloat(document.getElementById('bm2').value) || 0;
+  const fran = parseTime(document.getElementById('bm3').value);
+  const pullups = parseFloat(document.getElementById('bm4').value) || 0;
+  const row = parseTime(document.getElementById('bm5').value);
+  if (!squat && !dead) return;
+
+  let score = 0; let count = 0;
+  if (squat) { score += Math.min(100, squat / 1.5); count++; }
+  if (dead) { score += Math.min(100, dead / 2); count++; }
+  if (fran) { score += Math.max(0, 100 - (fran - 120) / 2); count++; }
+  if (pullups) { score += Math.min(100, pullups * 4); count++; }
+  if (row) { score += Math.max(0, 100 - (row - 90) * 2); count++; }
+  if (!count) return;
+
+  const avg = score / count;
+  let level, desc, color, barW;
+  if (avg < 25) { level = '🟢 Principiante'; desc = 'Estás empezando tu camino. ¡Cada sesión te acerca a tu mejor versión!'; color = 'text-green-400'; barW = '20%'; }
+  else if (avg < 50) { level = '🔵 Intermedio'; desc = 'Buenas bases. Con constancia en 6 meses alcanzarás nivel avanzado.'; color = 'text-blue-400'; barW = '50%'; }
+  else if (avg < 75) { level = '🟡 Avanzado'; desc = 'Rendimiento sólido. Estás en el top 25% de nuestros atletas.'; color = 'text-yellow-400'; barW = '75%'; }
+  else { level = '🔴 Elite'; desc = 'Rendimiento excepcional. Eres un referente en el box. ¡A por competición!'; color = 'text-accent'; barW = '97%'; }
+
+  document.getElementById('levelBadge').textContent = level;
+  document.getElementById('levelBadge').className = `text-3xl font-black mb-3 ${color}`;
+  document.getElementById('levelDesc').textContent = desc;
+  document.getElementById('levelBar').style.width = barW;
+  document.getElementById('levelResult').classList.remove('hidden');
+}
+
+// BOOKING
+function submitBooking() {
+  const name = document.getElementById('bName').value.trim();
+  const phone = document.getElementById('bPhone').value.trim();
+  const email = document.getElementById('bEmail').value.trim();
+  const time = document.getElementById('bTime').value;
+  if (!name || !phone || !email || !time) { showToast('Por favor, rellena todos los campos'); return; }
+  document.getElementById('bookingForm').classList.add('hidden');
+  document.getElementById('bookingSuccess').classList.remove('hidden');
+}
+
+function showToast(msg) {
+  const t = document.createElement('div');
+  t.className = 'fixed bottom-6 left-1/2 -translate-x-1/2 bg-white text-black text-sm font-semibold px-5 py-3 rounded-full z-50 fade-in shadow-xl whitespace-nowrap';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 3000);
+}
+</script>
+</body>
+</html>
